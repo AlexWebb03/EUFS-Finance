@@ -1,4 +1,4 @@
-import { exampleRouter } from "eufs-finance/server/api/routers/example";
+import { airtableRouter } from "eufs-finance/server/api/routers/airtable";
 import { createTRPCRouter } from "eufs-finance/server/api/trpc";
 
 /**
@@ -7,7 +7,7 @@ import { createTRPCRouter } from "eufs-finance/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
+  airtable: airtableRouter,
 });
 
 // export type definition of API
