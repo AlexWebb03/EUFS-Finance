@@ -4,6 +4,9 @@ import { createTRPCRouter, publicProcedure } from "eufs-finance/server/api/trpc"
 
 import { env } from "src/env.mjs"
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 const base = new Airtable({apiKey: env.AIRTABLE_API_KEY}).base(env.AIRTABLE_BASE_ID);
 
 
