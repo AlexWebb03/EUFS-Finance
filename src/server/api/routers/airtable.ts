@@ -12,7 +12,13 @@ interface reimbursements{
 }
 
 
-const base = new Airtable({apiKey: 'patYgRTIOPRIpKD0D.68f7c75b875a70c115c8a26b80907d60599861c00968e4d42dab2a7e87383f04'}).base('appeXw3HbMoKHSeYM');
+import { env } from "src/env.mjs"
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const base = new Airtable({apiKey: env.AIRTABLE_API_KEY}).base(env.AIRTABLE_BASE_ID);
+
 
 export const airtableRouter = createTRPCRouter({
   requests: publicProcedure
