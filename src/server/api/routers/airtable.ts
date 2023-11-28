@@ -24,14 +24,13 @@ export const airtableRouter = createTRPCRouter({
           view: "Table"
       }).eachPage((records, fetchNextPage) => {
           // This function (`page`) will get called for each page of records.
-          const row = records.map(record =>({
+          const rows_in_page = records.map(record =>({
             price:record.get("Total") as number,
             team : record.get("Team") as string,
             sub_team: record.get("Subteam") as string,
             date: record.get("Date submitted") as string
           }));
-            rows.push(...row);
-              
+            rows.push(...rows_in_page);    
             //convert this to a list and store it there 
 
           // To fetch the next page of records, call `fetchNextPage`.
