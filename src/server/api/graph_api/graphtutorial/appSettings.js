@@ -8,7 +8,10 @@ const settings = {
   'graphUserScopes': [
     'user.read',
     'mail.read',
-    'mail.send'
+    'mail.send',
+    'openid',
+    'profile',
+    'email'
   ]
 };
 

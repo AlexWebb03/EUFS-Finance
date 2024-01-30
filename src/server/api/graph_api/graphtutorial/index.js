@@ -22,7 +22,8 @@ async function main() {
     'Display access token',
     'List my inbox',
     'Send mail',
-    'Make a Graph call'
+    'Make a Graph call',
+    'Send Teams message'
   ];
 
   while (choice != -1) {
@@ -48,6 +49,9 @@ async function main() {
       case 3:
         // Run any Graph code
         await makeGraphCallAsync();
+        break;
+      case 4:
+        await sendTeamsMessageAsync();
         break;
       default:
         console.log('Invalid choice! Please try again.');
@@ -150,3 +154,17 @@ async function makeGraphCallAsync() {
   }
 }
 // </MakeGraphCallSnippet>
+
+
+async function sendTeamsMessageAsync() {
+  const teamId = readline.question('Enter the Team ID: ');
+  const channelId = readline.question('Enter the Channel ID: ');
+  const messageContent = readline.question('Enter your message: ');
+
+  try {
+    await graphHelper.sendTeamsMessageAsync(teamId, channelId, messageContent);
+    console.log('Message sent to Teams channel.');
+  } catch (err) {
+    console.log(`Error sending message to Teams: ${err}`);
+  }
+}

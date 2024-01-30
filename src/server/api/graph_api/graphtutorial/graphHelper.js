@@ -128,3 +128,31 @@ async function makeGraphCallAsync() {
 }
 module.exports.makeGraphCallAsync = makeGraphCallAsync;
 // </MakeGraphCallSnippet>
+
+
+async function sendTeamsMessageAsync(teamId, channelId, messageContent) {
+  // Check if the Graph client is initialized
+  if (!_userClient) {
+    throw new Error('Graph has not been initialized for user auth');
+  }
+
+  // Define the message format
+  const chatMessage = {
+    body: {
+      content: messageContent
+    }
+  };
+
+  // Send the message to the specified Teams channel
+  return _userClient.api(`/teams/${teamId}/channels/${channelId}/messages`)
+    .post(chatMessage)
+    .then((response) => {
+      // Handle the successful response here
+      return response;
+    })
+    .catch((error) => {
+      // Handle any errors here
+      throw error;
+    });
+}
+module.exports.sendTeamsMessageAsync = sendTeamsMessageAsync;
