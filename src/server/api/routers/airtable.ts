@@ -1,16 +1,16 @@
 import Airtable from "airtable";
-
+import React, { PureComponent } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { createTRPCRouter, publicProcedure } from "eufs-finance/server/api/trpc";
 import { date, string } from "zod";
 
 // Define the interface for a reimbursement
-interface reimbursements{
+export interface reimbursements{
     price: number;
     team: string;
     sub_team: string;
     date: string;
 }
-
 
 import { env } from "src/env.mjs"
 
@@ -22,11 +22,11 @@ const base = new Airtable({apiKey: env.AIRTABLE_API_KEY}).base(env.AIRTABLE_BASE
 
 export const airtableRouter = createTRPCRouter({
   requests: publicProcedure
-    .query( () => {
+    .query(async () => {
         //initialise an array to store reimbursements
         const rows: reimbursements[] = []; 
-         
-      base('Requests').select({
+      
+      await base('Requests').select({
           view: "Table"
       }).eachPage((records, fetchNextPage) => {
           // This function (`page`) will get called for each page of records.
@@ -43,13 +43,7 @@ export const airtableRouter = createTRPCRouter({
           // If there are more records, `page` will get called again.
           // If there are no more records, `done` will get called.
           fetchNextPage();
-      }, function done(err) {
-          if (err) { console.error(err); }
-          else{
-            console.log('Reimbursements:', rows);
-          }
-      });
-
+      })
       return rows;
     }),
 });
