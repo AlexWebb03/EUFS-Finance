@@ -10,7 +10,8 @@ import { api } from "eufs-finance/utils/api";
 
 export default function Home() {
   const hello = api.airtable.requests.useQuery();
-  const reimbursements = api.airtable.requests.useQuery();
+
+  const {isLoading, data} = api.airtable.requests.useQuery();
 
   return (
     <>
@@ -26,7 +27,7 @@ export default function Home() {
             Edinburgh University Formula Student
           </h1>
 
-          <Chart reimbursements={reimbursements.data!}></Chart>
+          <Chart reimbursements={isLoading ? [] : data!}></Chart>
 
           <p className="text-2xl text-white">
             
