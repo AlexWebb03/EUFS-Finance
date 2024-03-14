@@ -33,7 +33,7 @@ export default class Chart extends PureComponent<{reimbursements: reimbursements
   
   render() {
     const { reimbursements } = this.props;
-    //console.log(reimbursements);
+    console.log(this.props);
     const transformingdata = this.transformData(reimbursements);
     console.log(transformingdata);
     const changing_date = (date) => {
