@@ -11,42 +11,33 @@ interface MonthlyExpenditure{
 
 export default class Chart extends PureComponent<{reimbursements: reimbursements[]}> {
   //Function to transform and aggregate data by month
-  transformData(data:any[] = []):MonthlyExpenditure[]{
+  transformData(data:any[] = []): MonthlyExpenditure[]{
     const monthTotals:{[key:string]:MonthlyExpenditure} = {};
 
     data.forEach((item) => {
       const month = format(parseISO(item.date),"MMM");
       if(monthTotals[month]){
-        monthTotals[month].totalExpenditure += item.price;
+        monthTotals[month]!.totalExpenditure += item.price;
       }
       else{
         monthTotals[month] = {month,totalExpenditure:item.price};
       }
     });
 
-    //Convert the object to an array of MonthlyExpenditure
-    console.log("hello");
-    console.log(monthTotals);
     return Object.values(monthTotals);
   }
   
   
   render() {
     const { reimbursements } = this.props;
-    console.log(this.props);
-    const transformingdata = this.transformData(reimbursements);
-    console.log(transformingdata);
-    const changing_date = (date) => {
-      const dating = format(new Date(date), "MM" );
-     //console.log(dating);
-      return format(new Date(date), "MM" );
-    };
+    const transformingData = this.transformData(reimbursements);
+
     return (
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={500}
           height={300}
-          data={reimbursements}
+          data={transformingData}
           margin={{
             top: 5,
             right: 30,
@@ -55,11 +46,11 @@ export default class Chart extends PureComponent<{reimbursements: reimbursements
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" tickFormatter={changing_date} />
-          <YAxis dataKey = "price" />
+          <XAxis dataKey="month" />
+          <YAxis dataKey = "totalExpenditure" />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="totalExpenditure" stroke="#8884d8" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     );
